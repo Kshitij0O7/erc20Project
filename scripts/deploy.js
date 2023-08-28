@@ -1,32 +1,21 @@
-// We require the Hardhat Runtime Environment explicitly here. This is optional
-// but useful for running the script in a standalone fashion through `node <script>`.
-//
-// You can also run a script with `npx hardhat run <script>`. If you do that, Hardhat
-// will compile your contracts, add the Hardhat Runtime Environment's members to the
-// global scope, and execute the script.
-const hre = require("hardhat");
+const main = async () => {
+  // Here <hre< is injected automatically by hardhat, no need to import it explicitly.
+  const DevToken = await hre.ethers.getContractFactory("HKPtoken");
+  // Any value passed to deploy() will be passed to contructor of our contract as parameters.
 
-async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const unlockTime = currentTimestampInSeconds + 60;
+  const devToken = await DevToken.deploy();
 
-  const lockedAmount = hre.ethers.utils.parseEther("0.001");
+  // <deploy()< in previous line deploys the contract.
+  // <deployed() in next line checks if contract is deployed.
+  await devToken.deployed();
 
-  const Lock = await hre.ethers.getContractFactory("Lock");
-  const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
+  // Once deployed (in 20-30 seconds) you will see the contract address in console. You can also check the transaction on etherscan goerli network.
+  console.log("Contract deployed to: ", devToken.address);
+};
 
-  await lock.deployed();
-
-  console.log(
-    `Lock with ${ethers.utils.formatEther(
-      lockedAmount
-    )}ETH and unlock timestamp ${unlockTime} deployed to ${lock.address}`
-  );
-}
-
-// We recommend this pattern to be able to use async/await everywhere
-// and properly handle errors.
-main().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
-});
+main()
+  .then(() => process.exit(0))
+  .catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });
