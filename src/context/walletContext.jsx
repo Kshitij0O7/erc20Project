@@ -170,19 +170,17 @@ function WalletProvider({ children }) {
           method: "wallet_addEthereumChain",
           params: [
             {
-              chainId: `0x${Number(80001).toString(16)}`,
-              chainName: "Mumbai",
+              chainId: `0x${Number(443).toString(16)}`,
+              chainName: "Sepolia",
               nativeCurrency: {
-                name: "MATIC",
-                symbol: "MATIC",
+                name: "Sepolia Ether",
+                symbol: "ETH",
                 decimals: 18,
               },
               rpcUrls: [
-                "https://matic-mumbai.chainstacklabcom",
-                "https://rpc-mumbai.maticvigil.com",
-                "https://matic-testnet-archive-rpbwarelabs.com",
+                "https://testnet.obscu.ro",
               ],
-              blockExplorerUrls: ["https://mumbapolygonscan.com"],
+              blockExplorerUrls: ["https://testnet.obscuroscan.io"],
             },
           ],
         });
